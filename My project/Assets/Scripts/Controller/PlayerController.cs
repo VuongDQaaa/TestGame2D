@@ -20,10 +20,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 jump;
     [Header("Status")]
     public bool isAlive;
-    //private bool isFreezed;
+    public bool isFreezed;
     private bool grounded;
     public int personalScore;
-    //private int damage;
     private bool facingRight = true;
     private float currentTime;
     private float startingTime = 3;
@@ -45,10 +44,8 @@ public class PlayerController : MonoBehaviour
         currentTime = startingTime;
         isAlive = true;
         readyToJump = false;
-        //isFreezed = false;
+        isFreezed = false;
         personalScore = 0;
-        //damage = 1;
-
         powerBar.value = currentJumpForce;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -59,6 +56,7 @@ public class PlayerController : MonoBehaviour
         MovevementInput();
         Movement();
         Animation();
+        SetScore();
         //condition to flip
         if (facingRight == false && horizontalInput > 0 && verticalInput > 0)
         {
@@ -91,8 +89,16 @@ public class PlayerController : MonoBehaviour
 
     void MovevementInput()
     {
-        verticalInput = Joystick.Vertical;
-        horizontalInput = Joystick.Horizontal;
+        if (isFreezed == false)
+        {
+            verticalInput = Joystick.Vertical;
+            horizontalInput = Joystick.Horizontal;
+        }
+        else
+        {
+            verticalInput = 0;
+            horizontalInput = 0;
+        }
     }
 
     void Movement()
@@ -154,6 +160,20 @@ public class PlayerController : MonoBehaviour
         powerBar.value = currentJumpForce;
     }
 
+    void SetScore()
+    {
+        if (isAlive == false)
+        {
+            if (GameManager.gameManager != null)
+            {
+                if (personalScore > GameManager.gameManager._GetHighScore())
+                {
+                    GameManager.gameManager._SetHighScore(personalScore);
+                }
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "ground")
@@ -169,13 +189,22 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("die", true);
             isAlive = false;
-            if(GameManager.gameManager != null)
-            {
-                if(personalScore > GameManager.gameManager._GetHighScore())
-                {
-                    GameManager.gameManager._SetHighScore(personalScore);
-                }
-            }
+        }
+        if (other.gameObject.tag == "Fire")
+        {
+            anim.SetBool("die", true);
+            isAlive = false;
+        }
+        if (other.gameObject.tag == "Ice")
+        {
+            anim.SetBool("Freezed", true);
+            isFreezed = true;
+            StartCoroutine(UnFreezed());
+        }
+        if(other.gameObject.tag == "Gravity")
+        {
+            moveSpeed = 50f;
+            StartCoroutine(Slow());
         }
     }
 
@@ -185,5 +214,19 @@ public class PlayerController : MonoBehaviour
         {
             grounded = false;
         }
+    }
+
+    IEnumerator UnFreezed()
+    {
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("Freezed", false);
+        isFreezed = false;
+        moveSpeed = 200f;
+    }
+
+    IEnumerator Slow()
+    {
+        yield return new WaitForSeconds(0.5f);
+        moveSpeed = 200f;
     }
 }
