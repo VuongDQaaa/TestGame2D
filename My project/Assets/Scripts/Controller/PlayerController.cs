@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Referrance")]
+    [SerializeField] private Slider powerBar;
+    [SerializeField] private GameObject lineArrow;
     public static PlayerController instance;
     [Header("Input")]
     public FixedJoystick Joystick;
@@ -14,7 +17,6 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed = 200f;
     private Rigidbody2D rb;
     private Animator anim;
-    [SerializeField] private Slider powerBar;
     private float maxJumpForce = 100f;
     public float currentJumpForce = 0f;
     private Vector2 jump;
@@ -125,6 +127,7 @@ public class PlayerController : MonoBehaviour
 
     void PrepareToJump()
     {
+        lineArrow.SetActive(true);
         anim.SetBool("Ready", true);
         //increase force by time
         if (currentJumpForce < maxJumpForce)
@@ -143,11 +146,13 @@ public class PlayerController : MonoBehaviour
         {
             jump = new Vector2(horizontalInput * -1, verticalInput * -1);
             readyToJump = true;
+            lineArrow.transform.eulerAngles = new Vector3(0, 0, Vector2.Angle(jump, Vector2.right) - 90);
         }
     }
 
     void Jump()
     {
+        lineArrow.SetActive(false);
         anim.SetBool("Ready", false);
         anim.SetBool("Jump", true);
         if (readyToJump == true)
@@ -201,7 +206,7 @@ public class PlayerController : MonoBehaviour
             isFreezed = true;
             StartCoroutine(UnFreezed());
         }
-        if(other.gameObject.tag == "Gravity")
+        if (other.gameObject.tag == "Gravity")
         {
             moveSpeed = 50f;
             StartCoroutine(Slow());

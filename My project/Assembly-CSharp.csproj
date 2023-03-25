@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
+     <Compile Include="Assets\Scripts\Controller\DestroyEffect.cs" />
      <Compile Include="Assets\Scripts\Controller\Bullet.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
@@ -50,7 +51,6 @@
      <Compile Include="Assets\Scripts\Controller\TurretController.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
      <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
-     <Compile Include="Assets\Scripts\Controller\DestroyEffect.cs" />
      <None Include="Assets\Fonts\plaguard-font\info.txt" />
      <None Include="Assets\Fonts\sportypo-font\info.txt" />
     <Reference Include="UnityEngine">
