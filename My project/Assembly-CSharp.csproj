@@ -51,6 +51,8 @@
      <Compile Include="Assets\Scripts\Controller\TurretController.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
      <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
+     <Compile Include="Assets\Scripts\Controller\MapController.cs" />
+     <Compile Include="Assets\Scripts\Controller\FloorSpawner.cs" />
      <None Include="Assets\Fonts\plaguard-font\info.txt" />
      <None Include="Assets\Fonts\sportypo-font\info.txt" />
     <Reference Include="UnityEngine">

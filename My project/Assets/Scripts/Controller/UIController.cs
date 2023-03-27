@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] private Text scoreText, currentScoreText, finalScore, record;
+    [SerializeField] private Text scoreText, currentScoreText, finalScore, record, gameOverTitle;
     [SerializeField] private GameObject pauseMenu, gameOver;
     [SerializeField] private Button resumeButton, restartButton, pauseButton, quitButton;
     // Start is called before the first frame update
@@ -23,11 +21,25 @@ public class UIController : MonoBehaviour
         SetCurrenScoreText();
         SetFinalScoreText();
         SetRecord();
+        SetGameOverTitle();
     }
 
     void SetText()
     {
         scoreText.text = PlayerController.instance.personalScore.ToString();
+    }
+
+    void SetGameOverTitle()
+    {
+        if (PlayerController.instance.personalScore > GameManager.gameManager._GetHighScore()
+            && PlayerController.instance.isAlive == false)
+        {
+            gameOverTitle.text = "New Record!!!";
+        }
+        else
+        {
+            gameOverTitle.text = "Game Over";
+        }
     }
 
     void SetCurrenScoreText()

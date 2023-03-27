@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class PlusPoint : MonoBehaviour

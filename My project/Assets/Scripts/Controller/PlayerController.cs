@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private float currentTime;
     private float startingTime = 3;
     private bool readyToJump;
+    public bool isjumped;
     void MakeInstance()
     {
         if (instance == null)
@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
         readyToJump = false;
         isFreezed = false;
         personalScore = 0;
+        isjumped = false;
         powerBar.value = currentJumpForce;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
         //Cancel jump
         if (readyToJump == true && verticalInput > 0 && currentJumpForce > 0)
         {
+            lineArrow.SetActive(false);
             anim.SetBool("Ready", false);
             currentJumpForce = 0;
             readyToJump = false;
@@ -163,6 +165,7 @@ public class PlayerController : MonoBehaviour
         currentJumpForce = 0;
         currentTime = startingTime;
         powerBar.value = currentJumpForce;
+        isjumped = true;
     }
 
     void SetScore()
@@ -185,6 +188,7 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("Jump", false);
             grounded = true;
+            isjumped = false;
         }
         if (other.gameObject.tag == "Point")
         {
@@ -203,6 +207,13 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Ice")
         {
             anim.SetBool("Freezed", true);
+            if (readyToJump == true)
+            {
+                currentJumpForce = 0;
+                jump = new Vector2(0, 0);
+                anim.SetBool("Ready", false);
+                anim.SetBool("Jump", false);
+            }
             isFreezed = true;
             StartCoroutine(UnFreezed());
         }
