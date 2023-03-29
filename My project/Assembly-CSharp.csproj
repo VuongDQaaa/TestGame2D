@@ -44,6 +44,7 @@
      <Compile Include="Assets\Scripts\Controller\MainMenu.cs" />
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
      <Compile Include="Assets\Scripts\Controller\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Controller\FloorSpawner.cs" />
      <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
      <Compile Include="Assets\Scripts\Controller\UIController.cs" />
      <Compile Include="Assets\Scripts\Controller\GameManager.cs" />
@@ -52,7 +53,8 @@
      <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
      <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
      <Compile Include="Assets\Scripts\Controller\MapController.cs" />
-     <Compile Include="Assets\Scripts\Controller\FloorSpawner.cs" />
+     <Compile Include="Assets\Scripts\Controller\MovingFloor.cs" />
+     <Compile Include="Assets\Scripts\Controller\DeathFloor.cs" />
      <None Include="Assets\Fonts\plaguard-font\info.txt" />
      <None Include="Assets\Fonts\sportypo-font\info.txt" />
     <Reference Include="UnityEngine">

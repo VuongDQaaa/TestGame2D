@@ -3,7 +3,8 @@ using UnityEngine;
 public class FloorSpawner : MonoBehaviour
 {
     public static FloorSpawner instance;
-    [SerializeField] private GameObject leftFloor, rightFloor, movingFloor, fireTurret, iceTurret, gravityTurret;
+    [SerializeField] private GameObject leftFloor, rightFloor, movingFloor;
+    [SerializeField] private GameObject[] turret;
     public bool spawnLeft;
     public bool spawnNew;
     public float currentHigh;
@@ -29,8 +30,8 @@ public class FloorSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GenerateLevel();
         GenerateTurret();
+        GenerateLevel();
     }
 
     void GeneratFixedFloor()
@@ -51,98 +52,76 @@ public class FloorSpawner : MonoBehaviour
         }
     }
 
+    void GenerateMovingFloor()
+    {
+        if (spawnNew == true)
+        {
+            GetSpawnPosition();
+            Instantiate(movingFloor, position, Quaternion.identity);
+            spawnNew = false;
+        }
+    }
+
     void GenerateLevel()
     {
-        if (PlayerController.instance.personalScore < 5 && spawnNew == true)
+        if (PlayerController.instance.personalScore <= 5)
         {
-            int random = Random.Range(0, 1);
-            if (random == 1)
-            {
-                GetSpawnPosition();
-                Instantiate(movingFloor, position, Quaternion.identity);
-            }
-            else if (random == 0)
-            {
-                GeneratFixedFloor();
-            }
+            GeneratFixedFloor();
         }
         else
         {
-            GeneratFixedFloor();
+            int random = Random.Range(0, 2);
+            if (random == 0)
+            {
+                GenerateMovingFloor();
+            }
+            else
+            {
+                GeneratFixedFloor();
+            }
         }
     }
 
     void GenerateTurret()
     {
-        if (PlayerController.instance.personalScore > 5 && spawnNew == true)
+        if (spawnNew == true && PlayerController.instance.personalScore > 10)
         {
-            int random = Random.Range(0, 2);
-            if (random == 0)
+            GetTurretPosition();
+            int random = Random.Range(0, 3);
+            if (spawnLeft == true)
             {
-                if (spawnLeft == true)
-                {
-                    GetTurretPosition();
-                    Instantiate(gravityTurret, turretPosition, Quaternion.identity);
-                }
-                else
-                {
-                    GetTurretPosition();
-                    Instantiate(gravityTurret, turretPosition, Quaternion.Euler(0, 0, 90));
-                }
+                Instantiate(turret[random], turretPosition, Quaternion.Euler(0,0,-90));
             }
-            else if (random == 1)
+            else
             {
-                if (spawnLeft == true)
-                {
-                    GetTurretPosition();
-                    Instantiate(gravityTurret, turretPosition, Quaternion.identity);
-                }
-                else
-                {
-                    GetTurretPosition();
-                    Instantiate(gravityTurret, turretPosition, Quaternion.Euler(0, 0, 90));
-                }
-            }
-            else if (random == 2)
-            {
-                if (spawnLeft == true)
-                {
-                    GetTurretPosition();
-                    Instantiate(gravityTurret, turretPosition, Quaternion.identity);
-                }
-                else
-                {
-                    GetTurretPosition();
-                    Instantiate(gravityTurret, turretPosition, Quaternion.Euler(0, 0, 90));
-                }
+                Instantiate(turret[random], turretPosition, Quaternion.Euler(0,0,90));
             }
         }
     }
 
     void GetSpawnPosition()
     {
-        if (PlayerController.instance.personalScore < 10)
+        if (PlayerController.instance.personalScore <= 10)
         {
-            position.y = currentHigh + Random.Range(3f, 5f);
-            currentHigh = position.y;
+            currentHigh = currentHigh + Random.Range(3f, 5f);
         }
         else
         {
-            position.y = currentHigh + Random.Range(4f, 6f);
-            currentHigh = position.y;
+            currentHigh = currentHigh + Random.Range(4f, 6f);
         }
+        position.y = currentHigh;
     }
 
     void GetTurretPosition()
     {
-        turretPosition.y = currentHigh + 2f;
-        if (spawnLeft == true)
+        turretPosition.y = currentHigh + Random.Range(1f, 2f);
+        if (spawnLeft == false)
         {
-            turretPosition.x = 2.388631f;
+            turretPosition.x = 2.36f;
         }
         else
         {
-            turretPosition.x = -2.41f;
+            turretPosition.x = -2.36f;
         }
     }
 }
