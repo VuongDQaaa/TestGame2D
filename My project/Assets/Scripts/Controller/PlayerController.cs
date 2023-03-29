@@ -193,6 +193,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Point")
         {
             personalScore++;
+            FloorSpawner.instance.spawnNew = true;
         }
         if (other.gameObject.tag == "Die")
         {
