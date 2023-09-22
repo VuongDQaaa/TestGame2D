@@ -84,7 +84,7 @@ public class FloorSpawner : MonoBehaviour
 
     void GenerateTurret()
     {
-        if (spawnNew == true && PlayerController.instance.personalScore > 10)
+        if (spawnNew == true && PlayerController.instance.personalScore > 5)
         {
             GetTurretPosition();
             int random = Random.Range(0, 3);

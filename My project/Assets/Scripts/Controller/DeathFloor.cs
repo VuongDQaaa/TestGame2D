@@ -8,6 +8,6 @@ public class DeathFloor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.up * speed * Time.time;
+        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.up * speed;
     }
 }
